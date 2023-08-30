@@ -126,7 +126,7 @@ def main():
     
     # Start the video stream
     # video de la sequence de deplacement
-    url = 'Video_coplanaire_redresse.mp4'
+    url = 'video_coplanaire_redresse.mp4'
     #url = 'Video_coplanaire.mp4'
     cap = cv2.VideoCapture(url)
     square_points=current_square_points
