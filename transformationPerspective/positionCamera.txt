@@ -1,0 +1,14 @@
+hcamera = 144
+
+y = 43 camera -> bords aruco
+
+X = 35 camera -> centre aruco droite
+
+hrobot 300
+
+sudo apt install cmake libgtk2.0-dev pkg-config
+mkdir build
+cd build
+cmake ..
+make -j 8
+sudo make install
