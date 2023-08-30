@@ -85,6 +85,7 @@ def main():
     
     # Start the video stream
     #url = 'PXL_20230607_190612712.mp4'
+    #Video chez fred aruco au sol
     url = 'WIN_20230727_21_53_08_Pro.mp4'
     cap = cv2.VideoCapture(url)
 
