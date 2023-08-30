@@ -54,7 +54,8 @@ ARUCO_DICT = {
 }
 #***************************************************************************
 def get_markers(vid_frame, aruco_dictionary, aruco_parameters):
-    bboxs, ids, rejected = cv2.aruco.detectMarkers(vid_frame, aruco_dictionary, parameters=aruco_parameters)
+    detector = cv2.aruco.ArucoDetector(aruco_dictionary, aruco_parameters)
+    bboxs, ids, rejected = detector.detectMarkers(vid_frame)
     if ids is not None:
         ids_sorted=[]
         for id_number in ids:
