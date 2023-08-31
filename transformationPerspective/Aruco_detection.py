@@ -1,10 +1,12 @@
 """
-Position camera
+il faut modifier les marges autour du restangle des Aruco pour voir un peu plus au dessus
+attention ca modifiera la position de l'origine
+
+Position camera pour le 2 films fait chez Fred en uillet
 h = 1440mm 
 bord en Y 430mm
-centre bord en x 350mm
-
-
+centre bord en x 350mm à droite  c'est probablement faux !
+je reduit à 35 pour voir
 
 il faut mettre une explication du repere Oxy
 O est en haute à droite de l'image
@@ -89,24 +91,25 @@ marker_location_hold = True
 # +y est vers 3
 # fonction a reprendre
 def camera_compensation(x_coordinate, y_coordinate):
-    h_foam = 300  # hauteur robot
+    h_foam = 105
+    # hauteur robot 300 en mm soit 300/2.87 =105
     # calcul position caméra
     # le rectangle des 4 balise fait 300 x 300*2.151=645 points
     # il mesure réellement 860*1850 mm
     # hauteur caméra = 1440*300/860 =1440/2.87 = 502.32
-    # distance camera en X = 300/2-350/2.87 = 150 -
-    # distance camera en Y = 430mm soit 430/2.87 = 150 -122 = 28
-    # distance X point/camera = 28 - x_coordinate
-    # distance Y point/camera = 200 + 645 + 150 - y_coordinate
-    # tangX = hcamera/distance X point_camera
-    # tangY = hcamera/distance Y point_camera
-    # correction X = 300 / tangx
-    # correction Y = 300 / tangy
-    x_tangeante = 502.32/(28-x_coordinate)
-    y_tangeante = 502.32/(945-y_coordinate)
-    x_correction= 300/x_tangeante
-    y_correction= 300/y_tangeante
-    print("tangx ",x_tangeante,"tangy ",y_tangeante)
+    # distance camera en X = 200 + 300/2 + 35/2.87 = 200 + 150 + 12 = 362
+    # distance camera en Y = 430mm soit 430/2.87 = 150 + 645 + 200 = 995
+    # distance X point/camera = 477 - x_coordinate
+    # distance Y point/camera = 995 - y_coordinate
+    # cotangX = distance X point_camera/hcamera
+    # cotangY = distance Y point_camera/hcamera
+    # correction X = 300 * cotangx
+    # correction Y = 300 * cotangy
+    x_cotangeante = (362-x_coordinate)/502.32
+    y_cotangeante = (995-y_coordinate)/502.32
+    x_correction= h_foam * x_cotangeante
+    y_correction= h_foam * y_cotangeante
+    print("cotangx ",x_cotangeante,"cotangy ",y_cotangeante)
     print("x_correction ",x_correction,"y_correction ",y_correction)
     x_compensated =  x_coordinate + x_correction
     y_compensated =  y_coordinate + y_correction
