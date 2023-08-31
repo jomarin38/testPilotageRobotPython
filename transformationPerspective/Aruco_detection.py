@@ -109,7 +109,7 @@ def camera_compensation(x_coordinate, y_coordinate):
     y_cotangeante = (995-y_coordinate)/502.32
     x_correction= h_foam * x_cotangeante
     y_correction= h_foam * y_cotangeante
-    print("cotangx ",x_cotangeante,"cotangy ",y_cotangeante)
+    #print("cotangx ",x_cotangeante,"cotangy ",y_cotangeante)
     print("x_correction ",x_correction,"y_correction ",y_correction)
     x_compensated =  x_coordinate + x_correction
     y_compensated =  y_coordinate + y_correction
@@ -229,6 +229,13 @@ def main():
         #camera compensation
         x_coordinate_comp,y_coordinate_comp=camera_compensation(x_coordinate,y_coordinate)
         print("Position after compensation: ",x_coordinate_comp,", ",y_coordinate_comp)
+        x_coordmm = int(x_coordinate_comp * 2.87)
+        y_coordmm = int(y_coordinate_comp * 2.87)
+        # il faut faire un changement de repère pour facilter la lecture
+        # on place le zero sur la balise du haut à gauche
+        x_coordmm = x_coordmm -574
+        y_coordmm = y_coordmm -574
+        print("Position robot en mm: ",x_coordmm,", ",y_coordmm)
         print("- ")
 
         #dessine une croix verte sur le code ARUCO du robot, coordonnées corrigées
