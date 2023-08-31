@@ -178,7 +178,7 @@ def main():
         if start_time < current_time:
             if squareFound:
                 square_points=left_corners
-                print("left_corners ",left_corners)
+                #print("left_corners ",left_corners)
             # correction de perspective
             img_wrapped=four_point_transform(frame_clean, np.array(square_points))
             # renvoi image redressée
@@ -211,7 +211,7 @@ def main():
         #cv2.imshow('img_cropped',img_cropped)
 
         # compensation d'altitude ARUCO du Robot
-        print("centerCorner ",centerCorner)
+        #print("centerCorner ",centerCorner)
         # le repère est maintenant zero en ht a gauche, x vers le droite, y vers le bas.
         # coordonnées apparentes du robot
         # on ne peut pas faire un simple changement de repère, l'image a été construite à partir des 4 position des balises
@@ -228,20 +228,25 @@ def main():
         
         #camera compensation
         x_coordinate_comp,y_coordinate_comp=camera_compensation(x_coordinate,y_coordinate)
-        print("Position after compensation: ",x_coordinate_comp,", ",y_coordinate_comp)
+        #print("Position after compensation: ",x_coordinate_comp,", ",y_coordinate_comp)
         x_coordmm = int(x_coordinate_comp * 2.87)
         y_coordmm = int(y_coordinate_comp * 2.87)
         # il faut faire un changement de repère pour facilter la lecture
         # on place le zero sur la balise du haut à gauche
         x_coordmm = x_coordmm -574
         y_coordmm = y_coordmm -574
-        print("Position robot en mm: ",x_coordmm,", ",y_coordmm)
+        #print("Position robot en mm: ",x_coordmm,", ",y_coordmm)
         print("- ")
 
         #dessine une croix verte sur le code ARUCO du robot, coordonnées corrigées
         img_wrapped=cv2.line(img_wrapped,(x_coordinate_comp,0), (x_coordinate_comp,h), (0,255,0), 2)
         img_wrapped=cv2.line(img_wrapped,(0,y_coordinate_comp), (w,y_coordinate_comp), (0,255,0), 2)
+        # affiche les coordonnées sur l'image
+        cv2.putText(img_wrapped, format(x_coordmm), (10,40),cv2.FONT_HERSHEY_SIMPLEX, 1,(0, 255, 0), 2)
+        cv2.putText(img_wrapped, format(y_coordmm), (100,40),cv2.FONT_HERSHEY_SIMPLEX, 1,(0, 255, 0), 2)
         cv2.imshow('img_wrapped',img_wrapped)
+
+
         
         #"""
         if cv2.waitKey(1) == ord('q'):
