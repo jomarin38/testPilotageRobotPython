@@ -1,12 +1,12 @@
 """
-il faut modifier les marges autour du restangle des Aruco pour voir un peu plus au dessus
+il faut modifier la marge au dessus du rectangle des Aruco pour voir un peu plus au dessus
 attention ca modifiera la position de l'origine
 
 Position camera pour le 2 films fait chez Fred en uillet
 h = 1440mm 
 bord en Y 430mm
 centre bord en x 350mm à droite  c'est probablement faux !
-je reduit à 35 pour voir
+je reduit à 35mm pour voir, c'est plus crédible
 
 il faut mettre une explication du repere Oxy
 O est en haute à droite de l'image
@@ -244,9 +244,12 @@ def main():
         # affiche les coordonnées sur l'image
         cv2.putText(img_wrapped, format(x_coordmm), (10,40),cv2.FONT_HERSHEY_SIMPLEX, 1,(0, 255, 0), 2)
         cv2.putText(img_wrapped, format(y_coordmm), (100,40),cv2.FONT_HERSHEY_SIMPLEX, 1,(0, 255, 0), 2)
+
+        # affiche les axes
+        img_wrapped=cv2.line(img_wrapped,(200,200), (200,400), (255,0,0), 2)
+        img_wrapped=cv2.line(img_wrapped,(200,200), (400,200), (255,0,0), 2) 
+
         cv2.imshow('img_wrapped',img_wrapped)
-
-
         
         #"""
         if cv2.waitKey(1) == ord('q'):
