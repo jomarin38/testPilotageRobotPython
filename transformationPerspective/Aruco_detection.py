@@ -110,7 +110,7 @@ def camera_compensation(x_coordinate, y_coordinate):
     x_correction= h_foam * x_cotangeante
     y_correction= h_foam * y_cotangeante
     #print("cotangx ",x_cotangeante,"cotangy ",y_cotangeante)
-    print("x_correction ",x_correction,"y_correction ",y_correction)
+    #print("x_correction ",x_correction,"y_correction ",y_correction)
     x_compensated =  x_coordinate + x_correction
     y_compensated =  y_coordinate + y_correction
 
@@ -119,7 +119,7 @@ def camera_compensation(x_coordinate, y_coordinate):
     return int(x_compensated), int(y_compensated)
 #***************************************************************************
 def main():
-   
+    current_time1=time.time()
     # Load the ArUco dictionary
     print("[INFO] detecting '{}' markers...".format(desired_aruco_dictionary1))
     this_aruco_dictionary1 = cv2.aruco.getPredefinedDictionary(ARUCO_DICT[desired_aruco_dictionary1])
@@ -135,12 +135,9 @@ def main():
     square_points=current_square_points
 
     while True:
-        
         current_time=time.time()
-        #print("time",current_time)
-
+        print("time :",round((time.time()-current_time1),1))
         ret, frame = cap.read()
-
         # Detect 4x4 ArUco markers in the video frame
         markers,ids=get_markers(frame, this_aruco_dictionary1, this_aruco_parameters1)
 
@@ -236,7 +233,7 @@ def main():
         x_coordmm = x_coordmm -574
         y_coordmm = y_coordmm -574
         #print("Position robot en mm: ",x_coordmm,", ",y_coordmm)
-        print("- ")
+        #print("- ")
 
         #dessine une croix verte sur le code ARUCO du robot, coordonnées corrigées
         img_wrapped=cv2.line(img_wrapped,(x_coordinate_comp,0), (x_coordinate_comp,h), (0,255,0), 2)
