@@ -110,39 +110,26 @@ def order_points(pts):
 #***************************************************************************
 # fonction de correction de perspective, tout ce fait ici.
 def four_point_transform(image, pts):
-    # obtain a consistent order of the points and unpack them
-    # individually
     rect = order_points(pts)
     (tl, tr, br, bl) = rect
-    # orig 300
-    """
-    maxWidth = 400
-    maxHeight = int(maxWidth * 6/ 4)
-    border_size = 400
-      
-    dst = np.array([
-        [border_size, border_size],
-        [maxWidth - 1 + border_size, border_size],
-        [maxWidth - 1 + border_size, maxHeight - 1 + border_size],
-        [border_size, maxHeight - 1 + border_size]], dtype = "float32")
-    """
     # dst est calculé from scratch ,c'est un rapport 2/3 !
     # on va mettre le bon rapport 1850/860
     # on defini la taille de la largeure et celle de la marge autour
     maxWidth = 300
     maxHeight = int((maxWidth*1850)/860)
     border_size = 200
+    border_size_vert = 400 # pour voir loin au dessus des balises sup
     dst = np.array([
-        [border_size, border_size],
-        [maxWidth + border_size, border_size],
-        [maxWidth + border_size, maxHeight + border_size],
-        [border_size, maxHeight+ border_size]], dtype = "float32") 
+        [border_size, border_size_vert],
+        [maxWidth + border_size, border_size_vert],
+        [maxWidth + border_size, maxHeight + border_size_vert],
+        [border_size, maxHeight+ border_size_vert]], dtype = "float32") 
     # compute the perspective transform matrix and then apply it
     # il utilise comme points initiaux les coordonnées des ARUCO
     #print("from",rect)
     #print("to",dst)
     M = cv2.getPerspectiveTransform(rect, dst)
-    warped = cv2.warpPerspective(image, M, (maxWidth+2*border_size, maxHeight+2*border_size))
+    warped = cv2.warpPerspective(image, M, (maxWidth + 2*border_size, maxHeight + border_size + border_size_vert))
     # return the warped image
     return warped
 #***************************************************************************

@@ -94,19 +94,19 @@ def camera_compensation(x_coordinate, y_coordinate):
     h_foam = 105
     # hauteur robot 300 en mm soit 300/2.87 =105
     # calcul position caméra
-    # le rectangle des 4 balise fait 300 x 300*2.151=645 points
+    # le rectangle des 4 balise fait 300 x (300*2.151=645 points)
     # il mesure réellement 860*1850 mm
-    # hauteur caméra = 1440*300/860 =1440/2.87 = 502.32
-    # distance camera en X = 200 + 300/2 + 35/2.87 = 200 + 150 + 12 = 362
-    # distance camera en Y = 430mm soit 430/2.87 = 150 + 645 + 200 = 995
-    # distance X point/camera = 477 - x_coordinate
-    # distance Y point/camera = 995 - y_coordinate
+    # hauteur caméra = 1440mm*300/860 =1440/2.87 = 502.32 points
+    # distance camera en X = 200 + 300/2 + 35/2.87 = 200 + 150 + 12 = 362 points
+    # distance camera en Y = 430mm soit 430/2.87 = 150 + 645 + 400 = 1195
+    # distance X point/camera = 362 - x_coordinate
+    # distance Y point/camera = 1195 - y_coordinate
     # cotangX = distance X point_camera/hcamera
     # cotangY = distance Y point_camera/hcamera
     # correction X = 300 * cotangx
     # correction Y = 300 * cotangy
     x_cotangeante = (362-x_coordinate)/502.32
-    y_cotangeante = (995-y_coordinate)/502.32
+    y_cotangeante = (1195-y_coordinate)/502.32
     x_correction= h_foam * x_cotangeante
     y_correction= h_foam * y_cotangeante
     #print("cotangx ",x_cotangeante,"cotangy ",y_cotangeante)
@@ -243,11 +243,11 @@ def main():
         img_wrapped=cv2.line(img_wrapped,(0,y_coordinate_comp), (w,y_coordinate_comp), (0,255,0), 2)
         # affiche les coordonnées sur l'image
         cv2.putText(img_wrapped, format(x_coordmm), (10,40),cv2.FONT_HERSHEY_SIMPLEX, 1,(0, 255, 0), 2)
-        cv2.putText(img_wrapped, format(y_coordmm), (100,40),cv2.FONT_HERSHEY_SIMPLEX, 1,(0, 255, 0), 2)
+        cv2.putText(img_wrapped, format(y_coordmm), (130,40),cv2.FONT_HERSHEY_SIMPLEX, 1,(0, 255, 0), 2)
 
         # affiche les axes
-        img_wrapped=cv2.line(img_wrapped,(200,200), (200,400), (255,0,0), 2)
-        img_wrapped=cv2.line(img_wrapped,(200,200), (400,200), (255,0,0), 2) 
+        img_wrapped=cv2.line(img_wrapped,(200,400), (200,600), (255,0,0), 2)
+        img_wrapped=cv2.line(img_wrapped,(200,400), (400,400), (255,0,0), 2) 
 
         cv2.imshow('img_wrapped',img_wrapped)
         
