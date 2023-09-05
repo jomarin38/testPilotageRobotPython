@@ -115,7 +115,7 @@ def four_point_transform(image, pts):
     # dst est calculé from scratch ,c'est un rapport 2/3 !
     # on va mettre le bon rapport 1850/860
     # on defini la taille de la largeure et celle de la marge autour
-    maxWidth = 300
+    maxWidth = 400  #300 ca donne une image triquée
     maxHeight = int((maxWidth*1850)/860)
     border_size = 200
     border_size_vert = 400 # pour voir loin au dessus des balises sup

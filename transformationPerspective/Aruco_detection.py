@@ -86,27 +86,27 @@ marker_location_hold = True
 
 #***************************************************************************
 #fonction de compensation du fait que le code ARUCO du robot est placé au dessus
-# le 0 est au coin haut gauche à 200,200 du point 1
+# le 0 est au coin haut gauche à 200,400 du point 1
 # x est vers 2 
 # +y est vers 3
 # fonction a reprendre
 def camera_compensation(x_coordinate, y_coordinate):
-    h_foam = 105
+    h_foam = 139  #300/2.151
     # hauteur robot 300 en mm soit 300/2.87 =105
     # calcul position caméra
-    # le rectangle des 4 balise fait 300 x (300*2.151=645 points)
+    # le rectangle des 4 balise fait 400 x (400*2.151=860 points)
     # il mesure réellement 860*1850 mm
-    # hauteur caméra = 1440mm*300/860 =1440/2.87 = 502.32 points
-    # distance camera en X = 200 + 300/2 + 35/2.87 = 200 + 150 + 12 = 362 points
-    # distance camera en Y = 430mm soit 430/2.87 = 150 + 645 + 400 = 1195
-    # distance X point/camera = 362 - x_coordinate
-    # distance Y point/camera = 1195 - y_coordinate
+    # hauteur caméra = 1440mm*400/860 =1440/2.15 = 669.77 points
+    # distance camera en X = 200 + 400/2 + 35/2.87 = 200 + 200 + 12 = 412 points
+    # distance camera en Y = 430mm soit 430/2.151 = 200 + 860 + 400 = 1460
+    # distance X point/camera = 412 - x_coordinate
+    # distance Y point/camera = 1460 - y_coordinate
     # cotangX = distance X point_camera/hcamera
     # cotangY = distance Y point_camera/hcamera
     # correction X = 300 * cotangx
     # correction Y = 300 * cotangy
-    x_cotangeante = (362-x_coordinate)/502.32
-    y_cotangeante = (1195-y_coordinate)/502.32
+    x_cotangeante = (412-x_coordinate)/669.77
+    y_cotangeante = (1460-y_coordinate)/669.77
     x_correction= h_foam * x_cotangeante
     y_correction= h_foam * y_cotangeante
     #print("cotangx ",x_cotangeante,"cotangy ",y_cotangeante)
@@ -212,13 +212,13 @@ def main():
         # le repère est maintenant zero en ht a gauche, x vers le droite, y vers le bas.
         # coordonnées apparentes du robot
         # on ne peut pas faire un simple changement de repère, l'image a été construite à partir des 4 position des balises
-        # il faut donc repartir de là, 200 de bordure, 300 entre X1 et X2, 300*2.151 entre Y1 et Y4
+        # il faut donc repartir de là, 200 de bordure, 400 entre X1 et X2, 400*2.151 entre Y1 et Y4
         # 
         x_coordinate=centerCorner[0][0]
         y_coordinate=centerCorner[0][1]
         #print("Optical position: ",x_coordinate,", ",y_coordinate)
         #print("format image init H L ",frame_with_square.shape)  #1920*1080
-        #print("format image deformée H L ",img_wrapped.shape)   #1045*700
+        #print("format image deformée H L ",img_wrapped.shape)   #1460*800
         #dessine une croix bleue sur le code ARUCO du robot, coordonnées apparentes
         #img_wrapped=cv2.line(img_wrapped,(x_coordinate,0), (x_coordinate,h), (255,0,0), 2)
         #img_wrapped=cv2.line(img_wrapped,(0,y_coordinate), (w,y_coordinate), (255,0,0), 2)
@@ -226,12 +226,12 @@ def main():
         #camera compensation
         x_coordinate_comp,y_coordinate_comp=camera_compensation(x_coordinate,y_coordinate)
         #print("Position after compensation: ",x_coordinate_comp,", ",y_coordinate_comp)
-        x_coordmm = int(x_coordinate_comp * 2.87)
-        y_coordmm = int(y_coordinate_comp * 2.87)
+        x_coordmm = int(x_coordinate_comp * 2.151)
+        y_coordmm = int(y_coordinate_comp * 2.151)
         # il faut faire un changement de repère pour facilter la lecture
         # on place le zero sur la balise du haut à gauche
-        x_coordmm = x_coordmm -574
-        y_coordmm = y_coordmm -574
+        x_coordmm = x_coordmm -430 # 200*2.151
+        y_coordmm = y_coordmm -860 #400*2.151
         #print("Position robot en mm: ",x_coordmm,", ",y_coordmm)
         #print("- ")
 
