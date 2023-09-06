@@ -110,6 +110,10 @@ def order_points(pts):
 #***************************************************************************
 # fonction de correction de perspective, tout ce fait ici.
 def four_point_transform(image, pts):
+    global border_size
+    global border_size_vert
+    global maxWidth
+    global maxHeight
     rect = order_points(pts)
     (tl, tr, br, bl) = rect
     # dst est calculé from scratch ,c'est un rapport 2/3 !

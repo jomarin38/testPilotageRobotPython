@@ -27,6 +27,16 @@ import numpy as np # Import Numpy library
 from ArucoDetection_definitions import *
 import keyboard
 
+
+
+# on defini la taille de la largeur et celle des marges autour
+# pour avoir des portées globales
+border_size=200  
+border_size_vert=400 # pour voir loin au dessus des balises sup
+maxWidth=400 #300 ca donne une image triquée
+maxHeight = int((maxWidth*1850)/860) # 860
+coef_red = 860/400 # coeficient pour passer des mm aux points
+
 start_time = time.time()
 # dico pour ARUCO table
 desired_aruco_dictionary1 = "DICT_4X4_50"
@@ -91,22 +101,34 @@ marker_location_hold = True
 # +y est vers 3
 # fonction a reprendre
 def camera_compensation(x_coordinate, y_coordinate):
+
+    global border_size
+    global border_size_vert
+    global maxWidth
+    global maxHeight
+    global coef_red # coeficient pour passer des mm aux points
+
+    
     h_foam = 139  #300/2.151
     # hauteur robot 300 en mm soit 300/2.87 =105
     # calcul position caméra
     # le rectangle des 4 balise fait 400 x (400*2.151=860 points)
     # il mesure réellement 860*1850 mm
     # hauteur caméra = 1440mm*400/860 =1440/2.15 = 669.77 points
+    coef_red = 860/400 # coeficient pour passer des mm aux points
+    h_camera = 1440 / coef_red # hauteur camera en point = 2.15
     # distance camera en X = 200 + 400/2 + 35/2.87 = 200 + 200 + 12 = 412 points
+    x_camera = 35/coef_red  + maxWidth/2 + border_size
+    y_camera = 430/coef_red + maxHeight + border_size_vert
     # distance camera en Y = 430mm soit 430/2.151 = 200 + 860 + 400 = 1460
     # distance X point/camera = 412 - x_coordinate
     # distance Y point/camera = 1460 - y_coordinate
-    # cotangX = distance X point_camera/hcamera
-    # cotangY = distance Y point_camera/hcamera
+    # cotangX = distance X point_camera/h_camera
+    # cotangY = distance Y point_camera/h_camera
     # correction X = 300 * cotangx
     # correction Y = 300 * cotangy
-    x_cotangeante = (412-x_coordinate)/669.77
-    y_cotangeante = (1460-y_coordinate)/669.77
+    x_cotangeante = (x_camera - x_coordinate)/h_camera
+    y_cotangeante = (y_camera - y_coordinate)/h_camera
     x_correction= h_foam * x_cotangeante
     y_correction= h_foam * y_cotangeante
     #print("cotangx ",x_cotangeante,"cotangy ",y_cotangeante)
