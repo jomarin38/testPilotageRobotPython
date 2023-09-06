@@ -32,9 +32,9 @@ import keyboard
 # on defini la taille de la largeur et celle des marges autour
 # pour avoir des portées globales
 border_size=200  
-border_size_vert=400 # pour voir loin au dessus des balises sup
-maxWidth=400 #300 ca donne une image triquée
-maxHeight = int((maxWidth*1850)/860) # 860
+border_size_vert=300 # pour voir loin au dessus des balises sup, 400
+maxWidth=400 #300 ca donne une image etriquée
+maxHeight = int((maxWidth*1850)/860) # = 860, 1850 et 860 sont les distancess réelles entre les 4 balises
 coef_red = 860/400 # coeficient pour passer des mm aux points
 
 start_time = time.time()
